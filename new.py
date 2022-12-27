@@ -7,13 +7,20 @@ app.config['DEBUG']=True
 
 @app.route('/checkPrime/<int:val>',methods=['GET'])
 def check_prime(val):
-    if val==2 or val==3:
-        return "True"
+    if val:
+        if val==2 or val==3:
+            return "True"
+        else:
+            for i in range(2,int(math.sqrt(val))+1):
+                if val%i==0:
+                    return "False"
+            return "True"
     else:
-        for i in range(2,int(math.sqrt(val))+1):
-            if val%i==0:
-                return "False"
-        return "True"
+        return not_found()
+
+@app.errorhandler(404)
+def not_found(error=None):
+    return "Please enter valid integer"
 
 
 @app.route('/checkFact/<int:val>',methods=['POST'])
